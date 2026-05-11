@@ -1,4 +1,4 @@
-# 🌊 Oseana
+# 🌊 Oceana
 
 Platform edukasi kelautan berbasis mobile yang dirancang untuk meningkatkan minat masyarakat Indonesia terhadap laut, sehingga generasi penerus dapat memanfaatkan dan melestarikan sumber daya laut secara maksimal.
 
@@ -6,7 +6,7 @@ Platform edukasi kelautan berbasis mobile yang dirancang untuk meningkatkan mina
 
 ## 📌 Tentang Proyek
 
-Oseana adalah aplikasi mobile yang dikembangkan oleh tim **OSORA** dari Universitas Amikom Yogyakarta sebagai bagian dari kompetisi **UNITY #11 Competitions 2023** kategori Software Development yang diselenggarakan oleh Universitas Negeri Yogyakarta (UNY).
+Oceana adalah aplikasi mobile yang dikembangkan oleh tim **OSORA** dari Universitas Amikom Yogyakarta sebagai bagian dari kompetisi **UNITY #11 Competitions 2023** kategori Software Development yang diselenggarakan oleh Universitas Negeri Yogyakarta (UNY).
 
 ---
 
