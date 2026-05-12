@@ -92,7 +92,7 @@ Branch aktif ditandai tanda bintang `*`.
 
 ### Langkah 3 — Buka Project di Android Studio
 
-Buka Android Studio, pilih **File > Open**, lalu pilih folder `oceana` hasil clone tadi. Tunggu Gradle sync selesai. Pastikan bisa di-run dan muncul "Hello Android!".
+Buka Android Studio, pilih **File > Open**, lalu pilih folder `oceana` hasil clone tadi. Tunggu Gradle sync selesai.
 
 ---
 
