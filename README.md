@@ -1,12 +1,12 @@
 # 🌊 Oceana
 
-Platform edukasi kelautan berbasis mobile yang dirancang untuk meningkatkan minat masyarakat Indonesia terhadap laut, sehingga generasi penerus dapat memanfaatkan dan melestarikan sumber daya laut secara maksimal.
+Platform edukasi kelautan berbasis mobile yang dirancang untuk meningkatkan minat masyarakat Indonesia terhadap laut, sehingga generasi penerus dapat memanfaatkan dan melestarikan sumber daya laut secara berkelanjutan.
 
 ---
 
 ## 📌 Tentang Proyek
 
-Oceana adalah aplikasi mobile yang dikembangkan oleh tim **OSORA** dari Universitas Amikom Yogyakarta sebagai bagian dari kompetisi **UNITY #11 Competitions 2023** kategori Software Development yang diselenggarakan oleh Universitas Negeri Yogyakarta (UNY).
+Oceana adalah aplikasi mobile yang dikembangkan oleh tim **OSORA** dari Universitas Amikom Yogyakarta sebagai bagian dari kompetisi **UNITY #11 Competitions 2023** kategori Software Development yang menghadirkan solusi inovatif dalam bidang edukasi kelautan.
 
 ---
 
@@ -29,15 +29,51 @@ Eksplorasi dunia bawah laut Indonesia. Pengguna dapat mempelajari berbagai jenis
 ### 🏛️ Atlantis
 Rekomendasi destinasi wisata bahari terbaik di Indonesia yang masih terjaga keasriannya. Cocok untuk pengguna yang ingin mengeksplorasi keindahan laut secara langsung.
 
+### 📱 Dashboard
+Halaman utama yang menampilkan antarmuka interaktif dengan navigasi ke semua fitur aplikasi.
+
+### 🔐 Authentication & Profile
+Sistem login/register yang aman serta halaman profil pengguna untuk personalisasi pengalaman.
+
 ---
 
 ## 🖥️ Preview Aplikasi
 
-Dashboard Oseana menampilkan antarmuka interaktif bertema bawah laut dengan elemen visual 3D yang imersif. Navigasi utama mencakup:
+Dashboard Oceana menampilkan antarmuka interaktif bertema bawah laut dengan elemen visual 3D yang imersif. Navigasi utama mencakup:
 
 - **Beranda** — Halaman utama dengan visual undersea world
-- **Materi** — Konten edukasi kelautan
+- **Materi** — Konten edukasi kelautan (Marine Life & Atlantis)
+- **Profil** — Informasi pengguna dan pengaturan
 - **Tentang** — Informasi platform
+
+---
+
+## 🔀 Struktur Branch
+
+Proyek Oceana menggunakan model Git Flow dengan struktur branch berikut:
+
+### Branch Utama
+- **`main`** — Branch produksi (stabil, siap rilis)
+- **`develop`** — Branch pengembangan utama (integrasi semua fitur)
+
+### Feature Branches (Per Anggota Tim)
+- **`feature/dashboard`** — Pengembangan halaman dashboard utama
+- **`feature/marine-life`** — Pengembangan fitur Marine Life
+- **`feature/atlantis`** — Pengembangan fitur Atlantis (destinasi wisata)
+- **`feature/auth`** — Pengembangan sistem login dan register
+- **`feature/profile`** — Pengembangan halaman profil pengguna
+
+---
+
+## 📋 Pembagian Tugas (MVP - Minimum Viable Product)
+
+| Anggota | Fitur/Bagian | Branch | Status |
+|---------|------------|--------|--------|
+| **Bagas (Mohammad Iqbal Bagas Permana)** | 🐠 Marine Life | `feature/marine-life` | MVP |
+| **Abi (Muhammad Abi Abdillah)** | 🏛️ Atlantis | `feature/atlantis` | MVP |
+| **Keke (Muhammad Kensya Kussyahputra H.)** | 📱 Dashboard | `feature/dashboard` | MVP |
+| **Thoriq (Ahmad Thoriq Hafidzurrohman)** | 🔐 Auth & Register | `feature/auth` | MVP |
+| **Thoriq (Ahmad Thoriq Hafidzurrohman)** | 👤 Profile | `feature/profile` | Post-MVP |
 
 ---
 
@@ -47,7 +83,8 @@ Dashboard Oseana menampilkan antarmuka interaktif bertema bawah laut dengan elem
 
 Pastikan sudah terinstall:
 - [Git](https://git-scm.com/downloads) — cek dengan `git --version` di terminal
-- Android Studio
+- Android Studio (versi terbaru)
+- JDK 11 atau lebih tinggi
 
 ---
 
@@ -64,20 +101,23 @@ cd oceana
 
 ### Langkah 2 — Masuk ke Branch Masing-masing
 
-Jalankan sesuai bagianmu:
+Jalankan sesuai dengan tugas yang telah ditentukan:
 
 ```bash
-# Keke (dashboard)
+# Keke (Dashboard)
 git checkout feature/dashboard
 
-# Bagas (marine-life)
+# Bagas (Marine Life)
 git checkout feature/marine-life
 
-# Abi (atlantis)
+# Abi (Atlantis)
 git checkout feature/atlantis
 
-# Thoriq (auth & profile)
+# Thoriq (Auth & Register)
 git checkout feature/auth
+
+# Thoriq (Profile) - pastikan sudah selesai dengan auth terlebih dahulu
+git checkout feature/profile
 ```
 
 Verifikasi kamu sudah di branch yang benar:
@@ -86,7 +126,7 @@ Verifikasi kamu sudah di branch yang benar:
 git branch
 ```
 
-Branch aktif ditandai tanda bintang `*`.
+Branch aktif ditandai dengan tanda bintang `*`.
 
 ---
 
@@ -98,9 +138,11 @@ Buka Android Studio, pilih **File > Open**, lalu pilih folder `oceana` hasil clo
 
 ### Langkah 4 — Mulai Coding
 
-Kerjakan fitur masing-masing di Android Studio seperti biasa.
+Kerjakan fitur masing-masing di Android Studio seperti biasa. **Pastikan mengikuti convention yang sudah disepakati tim.**
 
-**Khusus Keke:** kode dashboard yang sudah dibuat sebelumnya dipindahkan manual ke folder project ini, jangan lanjut di folder lama.
+**Catatan khusus per anggota:**
+- **Keke:** Kode dashboard yang sudah dibuat sebelumnya dipindahkan manual ke folder project ini, jangan lanjut di folder lama.
+- **Semua:** Pastikan testing dilakukan secara berkala sebelum push.
 
 ---
 
@@ -114,13 +156,23 @@ git commit -m "feat: deskripsi singkat apa yang dikerjakan"
 git push origin feature/nama-branch-kamu
 ```
 
-Contoh pesan commit yang benar:
+**Contoh pesan commit yang benar:**
 
 ```
 feat: add dashboard UI layout
-feat: add marine life list screen
+feat: add marine life list screen with data binding
 fix: fix login button not responding
+refactor: improve code structure in auth module
+docs: update documentation for marine life API
 ```
+
+**Format Commit Message:**
+- `feat:` — Fitur baru
+- `fix:` — Bug fixes
+- `refactor:` — Perbaikan kode tanpa mengubah fungsionalitas
+- `docs:` — Perubahan dokumentasi
+- `style:` — Perubahan formatting/style (whitespace, semicolon, dll)
+- `test:` — Penambahan atau perbaikan tests
 
 ---
 
@@ -132,14 +184,92 @@ Jalankan ini setiap kali mau mulai coding supaya tidak ketinggalan perubahan dar
 git pull origin develop
 ```
 
-Kalau muncul konflik setelah pull, kabari dulu ke grup sebelum mencoba resolve sendiri.
+**Jika ada konflik setelah pull:**
+1. Jangan panik! Konflik adalah hal normal dalam kolaborasi
+2. Identifikasi file yang konflik (ditandai dengan `<<<<<<<`, `=======`, `>>>>>>>`)
+3. Diskusikan dengan anggota tim yang mengubah file tersebut sebelum merge
+4. Kabari grup di Discord/chat sebelum mencoba resolve sendiri
+
+**Resolusi konflik:**
+```bash
+# Setelah menyelesaikan konflik manual di editor
+git add .
+git commit -m "merge: resolve conflicts from develop"
+git push origin feature/nama-branch-kamu
+```
+
+---
+
+### Langkah 7 — Merge ke Branch Develop (Setelah Fitur Selesai)
+
+Ketika fitur sudah selesai dan siap di-merge:
+
+1. **Push branch terbaru:**
+   ```bash
+   git push origin feature/nama-branch-kamu
+   ```
+
+2. **Kabari grup** bahwa fitur sudah siap untuk di-review
+
+3. **Minta review** dari minimal 1 anggota tim lain sebelum merge
+
+4. **Buat Pull Request (PR)** dari feature branch ke `develop` dengan deskripsi yang jelas:
+   - Fitur apa yang ditambahkan
+   - Testing yang sudah dilakukan
+   - Screenshot/demo jika diperlukan
+
+5. **Setelah PR di-approve**, lakukan merge ke `develop`
 
 ---
 
 ### Ringkasan Alur Harian
 
 ```
-Mulai kerja      → git pull origin develop
-Selesai sebagian → git add . → git commit → git push
-Fitur selesai    → kabari grup, minta di-review sebelum merge ke develop
+┌─ Mulai kerja
+│  └─ git pull origin develop (ambil update terbaru)
+│
+├─ Selesai mengerjakan bagian kecil
+│  └─ git add .
+│  └─ git commit -m "feat: deskripsi"
+│  └─ git push origin feature/nama-branch-kamu
+│
+└─ Fitur sudah lengkap
+   └─ Kabari grup + minta review
+   └─ Buat Pull Request ke develop
+   └─ Setelah di-approve → merge ke develop
 ```
+
+---
+
+## 📝 Konvensi Kode
+
+- **Language:** Kotlin (Android Development)
+- **Architecture:** MVVM (Model-View-ViewModel)
+- **Package Naming:** `com.osora.oceana.*`
+- **Indentation:** 4 spaces
+- **Line Length:** Max 100 characters
+
+---
+
+## 🔗 Referensi & Resources
+
+- [Android Developer Docs](https://developer.android.com/)
+- [Kotlin Documentation](https://kotlinlang.org/docs/)
+- [Git & GitHub Guide](https://guides.github.com/)
+- [MVVM Architecture Pattern](https://developer.android.com/jetpack/guide)
+
+---
+
+## ✅ Checklist Sebelum Merge ke Develop
+
+- [ ] Kode sudah di-test dan berjalan tanpa error
+- [ ] Commit message sudah sesuai format
+- [ ] Tidak ada conflict dengan branch `develop`
+- [ ] Sudah di-review oleh minimal 1 anggota tim lain
+- [ ] Documentation/README sudah diupdate jika perlu
+- [ ] Tidak ada debug code atau log yang tertinggal
+
+---
+
+**Terakhir diupdate:** 12 Mei 2026  
+**Dibuat oleh:** Tim OSORA - Universitas Amikom Yogyakarta
