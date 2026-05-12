@@ -228,6 +228,8 @@ Ketika fitur sudah selesai dan siap di-merge:
 
 ## 🔗 Referensi & Resources
 
+
+
 - [Android Developer Docs](https://developer.android.com/)
 - [Kotlin Documentation](https://kotlinlang.org/docs/)
 - [Git & GitHub Guide](https://guides.github.com/)
