@@ -69,11 +69,11 @@ Proyek Oceana menggunakan model Git Flow dengan struktur branch berikut:
 
 | Anggota | Fitur/Bagian | Branch | Status |
 |---------|------------|--------|--------|
-| **Bagas (Mohammad Iqbal Bagas Permana)** | 🐠 Marine Life | `feature/marine-life` | MVP |
-| **Abi (Muhammad Abi Abdillah)** | 🏛️ Atlantis | `feature/atlantis` | MVP |
-| **Keke (Muhammad Kensya Kussyahputra H.)** | 📱 Dashboard | `feature/dashboard` | MVP |
-| **Thoriq (Ahmad Thoriq Hafidzurrohman)** | 🔐 Auth & Register | `feature/auth` | MVP |
-| **Thoriq (Ahmad Thoriq Hafidzurrohman)** | 👤 Profile | `feature/profile` | Post-MVP |
+| **Bagas** | 🐠 Marine Life | `feature/marine-life` | MVP |
+| **Abi** | 🏛️ Atlantis | `feature/atlantis` | MVP |
+| **Kensya** | 📱 Dashboard | `feature/dashboard` | MVP |
+| **Thoriq** | 🔐 Auth & Register | `feature/auth` | MVP |
+| **Thoriq** | 👤 Profile | `feature/profile` | Post-MVP |
 
 ---
 
@@ -83,7 +83,7 @@ Proyek Oceana menggunakan model Git Flow dengan struktur branch berikut:
 
 Pastikan sudah terinstall:
 - [Git](https://git-scm.com/downloads) — cek dengan `git --version` di terminal
-- Android Studio (versi terbaru)
+- Android Studio (versi terbaru [kalau bisa])
 - JDK 11 atau lebih tinggi
 
 ---
@@ -116,7 +116,7 @@ git checkout feature/atlantis
 # Thoriq (Auth & Register)
 git checkout feature/auth
 
-# Thoriq (Profile) - pastikan sudah selesai dengan auth terlebih dahulu
+# Thoriq (Profile)
 git checkout feature/profile
 ```
 
@@ -183,21 +183,6 @@ Jalankan ini setiap kali mau mulai coding supaya tidak ketinggalan perubahan dar
 ```bash
 git pull origin develop
 ```
-
-**Jika ada konflik setelah pull:**
-1. Jangan panik! Konflik adalah hal normal dalam kolaborasi
-2. Identifikasi file yang konflik (ditandai dengan `<<<<<<<`, `=======`, `>>>>>>>`)
-3. Diskusikan dengan anggota tim yang mengubah file tersebut sebelum merge
-4. Kabari grup di Discord/chat sebelum mencoba resolve sendiri
-
-**Resolusi konflik:**
-```bash
-# Setelah menyelesaikan konflik manual di editor
-git add .
-git commit -m "merge: resolve conflicts from develop"
-git push origin feature/nama-branch-kamu
-```
-
 ---
 
 ### Langkah 7 — Merge ke Branch Develop (Setelah Fitur Selesai)
@@ -241,35 +226,9 @@ Ketika fitur sudah selesai dan siap di-merge:
 
 ---
 
-## 📝 Konvensi Kode
-
-- **Language:** Kotlin (Android Development)
-- **Architecture:** MVVM (Model-View-ViewModel)
-- **Package Naming:** `com.osora.oceana.*`
-- **Indentation:** 4 spaces
-- **Line Length:** Max 100 characters
-
----
-
 ## 🔗 Referensi & Resources
 
 - [Android Developer Docs](https://developer.android.com/)
 - [Kotlin Documentation](https://kotlinlang.org/docs/)
 - [Git & GitHub Guide](https://guides.github.com/)
 - [MVVM Architecture Pattern](https://developer.android.com/jetpack/guide)
-
----
-
-## ✅ Checklist Sebelum Merge ke Develop
-
-- [ ] Kode sudah di-test dan berjalan tanpa error
-- [ ] Commit message sudah sesuai format
-- [ ] Tidak ada conflict dengan branch `develop`
-- [ ] Sudah di-review oleh minimal 1 anggota tim lain
-- [ ] Documentation/README sudah diupdate jika perlu
-- [ ] Tidak ada debug code atau log yang tertinggal
-
----
-
-**Terakhir diupdate:** 12 Mei 2026  
-**Dibuat oleh:** Tim OSORA - Universitas Amikom Yogyakarta
