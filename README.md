@@ -38,3 +38,108 @@ Dashboard Oseana menampilkan antarmuka interaktif bertema bawah laut dengan elem
 - **Beranda** — Halaman utama dengan visual undersea world
 - **Materi** — Konten edukasi kelautan
 - **Tentang** — Informasi platform
+
+---
+
+## 🛠️ Panduan Kontribusi (untuk Anggota Tim)
+
+### Prasyarat
+
+Pastikan sudah terinstall:
+- [Git](https://git-scm.com/downloads) — cek dengan `git --version` di terminal
+- Android Studio
+
+---
+
+### Langkah 1 — Clone Repo
+
+Buka terminal (Command Prompt atau PowerShell di Windows), lalu jalankan:
+
+```bash
+git clone https://github.com/unlikeneptunev/oceana.git
+cd oceana
+```
+
+---
+
+### Langkah 2 — Masuk ke Branch Masing-masing
+
+Jalankan sesuai bagianmu:
+
+```bash
+# Keke (dashboard)
+git checkout feature/dashboard
+
+# Bagas (marine-life)
+git checkout feature/marine-life
+
+# Abi (atlantis)
+git checkout feature/atlantis
+
+# Thoriq (auth & profile)
+git checkout feature/auth
+```
+
+Verifikasi kamu sudah di branch yang benar:
+
+```bash
+git branch
+```
+
+Branch aktif ditandai tanda bintang `*`.
+
+---
+
+### Langkah 3 — Buka Project di Android Studio
+
+Buka Android Studio, pilih **File > Open**, lalu pilih folder `oceana` hasil clone tadi. Tunggu Gradle sync selesai. Pastikan bisa di-run dan muncul "Hello Android!".
+
+---
+
+### Langkah 4 — Mulai Coding
+
+Kerjakan fitur masing-masing di Android Studio seperti biasa.
+
+**Khusus Keke:** kode dashboard yang sudah dibuat sebelumnya dipindahkan manual ke folder project ini, jangan lanjut di folder lama.
+
+---
+
+### Langkah 5 — Simpan Progress ke GitHub
+
+Setiap kali selesai mengerjakan satu bagian kecil dan kode bisa di-run tanpa error, jalankan:
+
+```bash
+git add .
+git commit -m "feat: deskripsi singkat apa yang dikerjakan"
+git push origin feature/nama-branch-kamu
+```
+
+Contoh pesan commit yang benar:
+
+```
+feat: add dashboard UI layout
+feat: add marine life list screen
+fix: fix login button not responding
+```
+
+---
+
+### Langkah 6 — Ambil Update Terbaru dari `develop`
+
+Jalankan ini setiap kali mau mulai coding supaya tidak ketinggalan perubahan dari anggota lain:
+
+```bash
+git pull origin develop
+```
+
+Kalau muncul konflik setelah pull, kabari dulu ke grup sebelum mencoba resolve sendiri.
+
+---
+
+### Ringkasan Alur Harian
+
+```
+Mulai kerja      → git pull origin develop
+Selesai sebagian → git add . → git commit → git push
+Fitur selesai    → kabari grup, minta di-review sebelum merge ke develop
+```
