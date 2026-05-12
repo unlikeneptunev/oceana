@@ -38,5 +38,3 @@ Dashboard Oseana menampilkan antarmuka interaktif bertema bawah laut dengan elem
 - **Beranda** — Halaman utama dengan visual undersea world
 - **Materi** — Konten edukasi kelautan
 - **Tentang** — Informasi platform
-
-Sistem poin **Ocs (Oceana Coins)** digunakan sebagai mekanisme reward untuk mendorong keterlibatan pengguna dalam aktivitas edukasi.
