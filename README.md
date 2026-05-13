@@ -6,7 +6,9 @@ Platform edukasi kelautan berbasis mobile yang dirancang untuk meningkatkan mina
 
 ## 📌 Tentang Proyek
 
-Oceana adalah aplikasi mobile yang dikembangkan oleh tim **OSORA** dari Universitas Amikom Yogyakarta sebagai bagian dari kompetisi **UNITY #11 Competitions 2023** kategori Software Development yang menghadirkan solusi inovatif dalam bidang edukasi kelautan.
+Oceana adalah aplikasi mobile edukasi kelautan yang dikembangkan oleh kelompok 3 sebagai bagian dari tugas Final Project mata kuliah Pengembangan Aplikasi Mobile
+
+Aplikasi ini merupakan adaptasi mobile dari proyek web OSEANA, yang sebelumnya dikembangkan sebagai website oleh tim OSORA dari Universitas Amikom Yogyakarta untuk kompetisi UNITY #11 Competitions 2023. Kami mengadaptasi konsep dan desain tersebut ke dalam platform Android menggunakan Jetpack Compose.
 
 ---
 
