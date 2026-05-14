@@ -86,7 +86,10 @@ val CardBg = Color(0xFFFFFFFF)
 // ─── Main Home Screen ─────────────────────────────────────────────────────────
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: androidx.navigation.NavController,
+    authViewModel: com.kelompok3.oceana.ui.screen.auth.AuthViewModel
+) {
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         delay(100)
@@ -135,6 +138,19 @@ fun HomeScreen() {
 
             AnimatedVisibility(visible = visible, enter = fadeIn()) {
                 FooterBanner()
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            AnimatedVisibility(visible = visible, enter = fadeIn()) {
+                LogoutButton(
+                    onLogout = {
+                        authViewModel.logout()
+                        navController.navigate(com.kelompok3.oceana.navigation.OceanaRoute.LOGIN) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
             }
 
             Spacer(modifier = Modifier.height(80.dp))
@@ -501,12 +517,36 @@ fun SectionHeader(title: String, actionLabel: String?) {
     }
 }
 
-// ─── Preview ──────────────────────────────────────────────────────────────────
-
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun HomeScreenPreview() {
-    MaterialTheme {
-        HomeScreen()
+fun LogoutButton(onLogout: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        OutlinedButton(
+            onClick = onLogout,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = RoundedCornerShape(14.dp),
+            border = BorderStroke(1.5.dp, CoralAccent),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = CoralAccent)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Logout,
+                contentDescription = null,
+                tint = CoralAccent,
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Keluar",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = CoralAccent
+            )
+        }
     }
 }
