@@ -1,30 +1,54 @@
 package com.kelompok3.oceana.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
+import com.kelompok3.oceana.ui.screen.auth.login.LoginScreen
+import com.kelompok3.oceana.ui.screen.auth.register.RegisterScreen
 import com.kelompok3.oceana.ui.screen.home.HomeScreen
 
 object OceanaRoute {
-    const val HOME    = "home"
-    const val EXPLORE = "explore"
-    const val ATLANTIS = "atlantis"
+    const val HOME        = "home"
+    const val EXPLORE     = "explore"
+    const val ATLANTIS    = "atlantis"
     const val MARINE_LIFE = "marine_life"
-    const val AUTH    = "auth"
-    const val PROFILE = "profile"
+    const val AUTH        = "auth"
+    const val LOGIN       = "login"
+    const val REGISTER    = "register"
+    const val PROFILE     = "profile"
 }
 
 @Composable
 fun OceanaNavGraph() {
     val navController = rememberNavController()
+    val authViewModel: AuthViewModel = viewModel()
 
     NavHost(
         navController = navController,
-        startDestination = OceanaRoute.HOME
+        startDestination = OceanaRoute.LOGIN
     ) {
+        composable(OceanaRoute.LOGIN) {
+            LoginScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
+        composable(OceanaRoute.REGISTER) {
+            RegisterScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
         composable(OceanaRoute.HOME) {
-            HomeScreen()
+            HomeScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
         }
 
         // Abi — Atlantis
@@ -38,9 +62,6 @@ fun OceanaNavGraph() {
         // }
 
         // Thoriq — Auth & Profile
-        // composable(OceanaRoute.AUTH) {
-        //     AuthScreen(navController = navController)
-        // }
         // composable(OceanaRoute.PROFILE) {
         //     ProfileScreen(navController = navController)
         // }
