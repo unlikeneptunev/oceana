@@ -105,7 +105,7 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             AnimatedVisibility(visible = visible, enter = fadeIn()) {
-                OseanaTopBar(
+                OceanaTopBar(
                     username = username,
                     onProfileClick = {
                         navController.navigate(com.kelompok3.oceana.navigation.OceanaRoute.PROFILE)
@@ -158,7 +158,7 @@ fun HomeScreen(
 // ─── Top Bar ─────────────────────────────────────────────────────────────────
 
 @Composable
-fun OseanaTopBar(
+fun OceanaTopBar(
     username: String,
     onProfileClick: () -> Unit,
     onLogoutClick: () -> Unit
