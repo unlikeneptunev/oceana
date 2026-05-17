@@ -9,6 +9,7 @@ import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 import com.kelompok3.oceana.ui.screen.auth.login.LoginScreen
 import com.kelompok3.oceana.ui.screen.auth.register.RegisterScreen
 import com.kelompok3.oceana.ui.screen.home.HomeScreen
+import com.kelompok3.oceana.ui.screen.profile.ProfileScreen
 
 object OceanaRoute {
     const val HOME        = "home"
@@ -51,6 +52,13 @@ fun OceanaNavGraph() {
             )
         }
 
+        composable(OceanaRoute.PROFILE) {
+            ProfileScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
         // Abi — Atlantis
         // composable(OceanaRoute.ATLANTIS) {
         //     AtlantisScreen(navController = navController)
@@ -59,11 +67,6 @@ fun OceanaNavGraph() {
         // Bagas — Marine Life
         // composable(OceanaRoute.MARINE_LIFE) {
         //     MarineLifeScreen(navController = navController)
-        // }
-
-        // Thoriq — Auth & Profile
-        // composable(OceanaRoute.PROFILE) {
-        //     ProfileScreen(navController = navController)
         // }
     }
 }
