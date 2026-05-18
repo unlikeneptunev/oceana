@@ -9,6 +9,7 @@ import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 import com.kelompok3.oceana.ui.screen.auth.login.LoginScreen
 import com.kelompok3.oceana.ui.screen.auth.register.RegisterScreen
 import com.kelompok3.oceana.ui.screen.home.HomeScreen
+import com.kelompok3.oceana.ui.screen.MarineLife.MarineLifeScreen
 import com.kelompok3.oceana.ui.screen.profile.ProfileScreen
 
 object OceanaRoute {
@@ -28,7 +29,7 @@ fun OceanaNavGraph() {
     val authViewModel: AuthViewModel = viewModel()
 
     NavHost(
-        navController = navController,
+        navController    = navController,
         startDestination = OceanaRoute.LOGIN
     ) {
         composable(OceanaRoute.LOGIN) {
@@ -59,14 +60,17 @@ fun OceanaNavGraph() {
             )
         }
 
+        // Bagas — Marine Life
+        composable(OceanaRoute.MARINE_LIFE) {
+            MarineLifeScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
         // Abi — Atlantis
         // composable(OceanaRoute.ATLANTIS) {
         //     AtlantisScreen(navController = navController)
-        // }
-
-        // Bagas — Marine Life
-        // composable(OceanaRoute.MARINE_LIFE) {
-        //     MarineLifeScreen(navController = navController)
         // }
     }
 }
