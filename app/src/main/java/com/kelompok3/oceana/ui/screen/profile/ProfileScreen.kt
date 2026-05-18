@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Waves
@@ -27,13 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
-import com.kelompok3.oceana.ui.screen.home.OceanDeep
-import com.kelompok3.oceana.ui.screen.home.OceanLight
-import com.kelompok3.oceana.ui.screen.home.OceanMid
-import com.kelompok3.oceana.ui.screen.home.OceanSurface
-import com.kelompok3.oceana.ui.screen.home.SandWhite
-import com.kelompok3.oceana.ui.screen.home.TextPrimary
-import com.kelompok3.oceana.ui.screen.home.TextSecondary
+
+// ─── Local color definitions (tidak bergantung pada HomeScreen) ───────────────
+private val OceanDeep     = Color(0xFF023E8A)
+private val OceanMid      = Color(0xFF0077B6)
+private val OceanLight    = Color(0xFF00B4D8)
+private val OceanSurface  = Color(0xFFCAF0F8)
+private val SandWhite     = Color(0xFFF8F9FA)
+private val TextPrimary   = Color(0xFF0D1B2A)
+private val TextSecondary = Color(0xFF4A5568)
 
 @Composable
 fun ProfileScreen(
@@ -53,7 +55,7 @@ fun ProfileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             ProfileHeader(
-                username = user?.username ?: "-",
+                username    = user?.username ?: "-",
                 onBackClick = { navController.popBackStack() }
             )
 
@@ -61,7 +63,7 @@ fun ProfileScreen(
 
             ProfileInfoSection(
                 username = user?.username ?: "-",
-                email = user?.email ?: "-"
+                email    = user?.email    ?: "-"
             )
 
             Spacer(modifier = Modifier.height(80.dp))
@@ -81,50 +83,52 @@ private fun ProfileHeader(
             .background(
                 Brush.linearGradient(
                     colors = listOf(OceanDeep, OceanMid, OceanLight),
-                    start = Offset(0f, 0f),
-                    end = Offset(Float.MAX_VALUE, Float.MAX_VALUE)
+                    start  = Offset(0f, 0f),
+                    end    = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
                 )
             )
     ) {
+        // ── Back button ───────────────────────────────────────────────────
         IconButton(
-            onClick = onBackClick,
+            onClick  = onBackClick,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(12.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.ArrowBack,
+                imageVector        = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Kembali",
-                tint = Color.White
+                tint               = Color.White
             )
         }
 
+        // ── Avatar + name + badge ─────────────────────────────────────────
         Column(
-            modifier = Modifier.align(Alignment.Center),
+            modifier            = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier
+                modifier         = Modifier
                     .size(84.dp)
                     .clip(CircleShape)
                     .background(Color.White.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Person,
+                    imageVector        = Icons.Filled.Person,
                     contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(48.dp)
+                    tint               = Color.White,
+                    modifier           = Modifier.size(48.dp)
                 )
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = username,
-                fontSize = 20.sp,
+                text       = username,
+                fontSize   = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color      = Color.White
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -134,20 +138,20 @@ private fun ProfileHeader(
                 color = Color.White.copy(alpha = 0.2f)
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                    modifier              = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                    verticalAlignment     = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.Waves,
+                        imageVector        = Icons.Filled.Waves,
                         contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(12.dp)
+                        tint               = Color.White,
+                        modifier           = Modifier.size(12.dp)
                     )
                     Text(
-                        text = "Oceana Member",
-                        fontSize = 12.sp,
-                        color = Color.White,
+                        text       = "Oceana Member",
+                        fontSize   = 12.sp,
+                        color      = Color.White,
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -162,24 +166,24 @@ private fun ProfileInfoSection(
     email: String
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 20.dp),
+        modifier            = Modifier.padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = "Informasi Akun",
-            fontSize = 15.sp,
+            text       = "Informasi Akun",
+            fontSize   = 15.sp,
             fontWeight = FontWeight.Bold,
-            color = TextPrimary
+            color      = TextPrimary
         )
 
         ProfileInfoCard(
-            icon = Icons.Filled.Person,
+            icon  = Icons.Filled.Person,
             label = "Username",
             value = username
         )
 
         ProfileInfoCard(
-            icon = Icons.Filled.Email,
+            icon  = Icons.Filled.Email,
             label = "Email",
             value = email
         )
@@ -193,44 +197,44 @@ private fun ProfileInfoCard(
     value: String
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        color = Color.White,
+        modifier        = Modifier.fillMaxWidth(),
+        shape           = RoundedCornerShape(16.dp),
+        color           = Color.White,
         shadowElevation = 2.dp
     ) {
         Row(
-            modifier = Modifier
+            modifier              = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment     = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             Box(
-                modifier = Modifier
+                modifier         = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(OceanSurface),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = icon,
+                    imageVector        = icon,
                     contentDescription = null,
-                    tint = OceanMid,
-                    modifier = Modifier.size(20.dp)
+                    tint               = OceanMid,
+                    modifier           = Modifier.size(20.dp)
                 )
             }
 
             Column {
                 Text(
-                    text = label,
-                    fontSize = 11.sp,
-                    color = TextSecondary,
+                    text       = label,
+                    fontSize   = 11.sp,
+                    color      = TextSecondary,
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = value,
-                    fontSize = 15.sp,
-                    color = TextPrimary,
+                    text       = value,
+                    fontSize   = 15.sp,
+                    color      = TextPrimary,
                     fontWeight = FontWeight.SemiBold
                 )
             }
