@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -104,10 +105,16 @@ fun AtlantisScreen(
         visible = true
     }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = SandWhite
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFF4AC8E8), Color(0xFF1A7EC8), Color(0xFF0D5DAD))
+                )
+            )
     ) {
+        AtlantisBackgroundDecor()
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -135,6 +142,8 @@ fun AtlantisScreen(
                 )
             }
 
+            Spacer(modifier = Modifier.height(12.dp))
+
             // ── Hero Section ──
             AnimatedVisibility(
                 visible = visible,
@@ -146,41 +155,50 @@ fun AtlantisScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // ── Content Section ──
-            Column(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(24.dp),
+                color = Color.White.copy(alpha = 0.95f),
+                shadowElevation = 8.dp
             ) {
-                AnimatedVisibility(
-                    visible = visible,
-                    enter = fadeIn() + slideInVertically(initialOffsetY = { 60 })
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
                 ) {
-                    Text(
-                        text = "Destinasi Impian",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = TextPrimary
-                    )
-                }
+                    AnimatedVisibility(
+                        visible = visible,
+                        enter = fadeIn() + slideInVertically(initialOffsetY = { 60 })
+                    ) {
+                        Text(
+                            text = "Destinasi Impian",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = TextPrimary
+                        )
+                    }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    atlantisDestinations.forEachIndexed { index, destination ->
-                        AnimatedVisibility(
-                            visible = visible,
-                            enter = fadeIn() + slideInVertically(initialOffsetY = { 80 + (index * 20) })
-                        ) {
-                            val isDetailEnabled = destination.id == 1
-                            DestinationCard(
-                                destination = destination,
-                                enabled = isDetailEnabled,
-                                onClick = {
-                                    if (isDetailEnabled) {
-                                        navController.navigate(OceanaRoute.ATLANTIS_DETAIL)
+                    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                        atlantisDestinations.forEachIndexed { index, destination ->
+                            AnimatedVisibility(
+                                visible = visible,
+                                enter = fadeIn() + slideInVertically(initialOffsetY = { 80 + (index * 20) })
+                            ) {
+                                val isDetailEnabled = destination.id == 1
+                                DestinationCard(
+                                    destination = destination,
+                                    enabled = isDetailEnabled,
+                                    onClick = {
+                                        if (isDetailEnabled) {
+                                            navController.navigate(OceanaRoute.ATLANTIS_DETAIL)
+                                        }
                                     }
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }
@@ -203,7 +221,8 @@ fun AtlantisTopBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .shadow(4.dp)
+            .background(Color.White.copy(alpha = 0.95f))
             .padding(horizontal = 20.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -319,6 +338,9 @@ fun AtlantisHero() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .shadow(8.dp, RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(24.dp))
             .height(180.dp)
             .background(
                 Brush.linearGradient(
@@ -368,6 +390,31 @@ fun AtlantisHero() {
             )
         }
     }
+}
+
+@Composable
+private fun AtlantisBackgroundDecor() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.07f),
+                    radius = 200.dp.toPx(),
+                    center = Offset(size.width * 0.85f, size.height * 0.15f)
+                )
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.05f),
+                    radius = 140.dp.toPx(),
+                    center = Offset(size.width * 0.1f, size.height * 0.65f)
+                )
+                drawCircle(
+                    color = Color.White.copy(alpha = 0.04f),
+                    radius = 90.dp.toPx(),
+                    center = Offset(size.width * 0.2f, size.height * 0.25f)
+                )
+            }
+    )
 }
 
 @Composable
