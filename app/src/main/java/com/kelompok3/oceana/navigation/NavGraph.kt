@@ -16,6 +16,7 @@ object OceanaRoute {
     const val HOME        = "home"
     const val EXPLORE     = "explore"
     const val ATLANTIS    = "atlantis"
+    const val ATLANTIS_DETAIL = "atlantis_detail"
     const val MARINE_LIFE = "marine_life"
     const val AUTH        = "auth"
     const val LOGIN       = "login"
@@ -69,8 +70,17 @@ fun OceanaNavGraph() {
         }
 
         // Abi — Atlantis
-        // composable(OceanaRoute.ATLANTIS) {
-        //     AtlantisScreen(navController = navController)
-        // }
+        composable(OceanaRoute.ATLANTIS) {
+            com.kelompok3.oceana.ui.screen.Atlantis.AtlantisScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
+        composable(OceanaRoute.ATLANTIS_DETAIL) {
+            com.kelompok3.oceana.ui.screen.Atlantis.AtlantisDetailScreen(
+                navController = navController
+            )
+        }
     }
 }
