@@ -97,7 +97,7 @@ fun AtlantisScreen(
     authViewModel: AuthViewModel
 ) {
     val authState by authViewModel.authState.collectAsState()
-    val username = authState.loggedInUser?.username ?: "User"
+    val username = authState.username ?: ""
 
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
