@@ -440,7 +440,14 @@ fun FeaturesSection(navController: androidx.navigation.NavController) {
             features.forEach { feature ->
                 FeatureCardItem(
                     feature = feature,
-                    onClick = { navController.navigate(feature.route) }
+                    onClick = {
+                        val route = if (feature.route == "atlantis") {
+                            com.kelompok3.oceana.navigation.OceanaRoute.ATLANTIS
+                        } else {
+                            feature.route
+                        }
+                        navController.navigate(route)
+                    }
                 )
             }
         }
