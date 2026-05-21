@@ -26,7 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.kelompok3.oceana.supabase
 import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
+import io.github.jan.supabase.auth.auth
 
 // ─── Local color definitions (tidak bergantung pada HomeScreen) ───────────────
 private val OceanDeep     = Color(0xFF023E8A)
@@ -43,7 +45,7 @@ fun ProfileScreen(
     authViewModel: AuthViewModel
 ) {
     val authState by authViewModel.authState.collectAsState()
-    val user = authState.loggedInUser
+    val username = authState.username ?: "-"
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -55,15 +57,15 @@ fun ProfileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             ProfileHeader(
-                username    = user?.username ?: "-",
+                username    = username,
                 onBackClick = { navController.popBackStack() }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             ProfileInfoSection(
-                username = user?.username ?: "-",
-                email    = user?.email    ?: "-"
+                username = username,
+                email    = supabase.auth.currentUserOrNull()?.email ?: "-"
             )
 
             Spacer(modifier = Modifier.height(80.dp))
