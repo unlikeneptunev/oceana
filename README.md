@@ -6,7 +6,9 @@ Platform edukasi kelautan berbasis mobile yang dirancang untuk meningkatkan mina
 
 ## 📌 Tentang Proyek
 
-Oceana adalah aplikasi mobile yang dikembangkan oleh tim **OSORA** dari Universitas Amikom Yogyakarta sebagai bagian dari kompetisi **UNITY #11 Competitions 2023** kategori Software Development yang menghadirkan solusi inovatif dalam bidang edukasi kelautan.
+Oceana adalah aplikasi mobile edukasi kelautan yang dikembangkan oleh kelompok 3 sebagai bagian dari tugas Final Project mata kuliah Pengembangan Aplikasi Mobile
+
+Aplikasi ini merupakan adaptasi mobile dari proyek web OSEANA, yang sebelumnya dikembangkan sebagai website oleh tim OSORA dari Universitas Amikom Yogyakarta untuk kompetisi UNITY #11 Competitions 2023. Kami mengadaptasi konsep dan desain tersebut ke dalam platform Android menggunakan Jetpack Compose.
 
 ---
 
@@ -41,10 +43,10 @@ Sistem login/register yang aman serta halaman profil pengguna untuk personalisas
 
 Dashboard Oceana menampilkan antarmuka interaktif bertema bawah laut dengan elemen visual 3D yang imersif. Navigasi utama mencakup:
 
-- **Beranda** — Halaman utama dengan visual undersea world
-- **Materi** — Konten edukasi kelautan (Marine Life & Atlantis)
-- **Profil** — Informasi pengguna dan pengaturan
-- **Tentang** — Informasi platform
+- **Beranda** - Halaman utama dengan visual undersea world
+- **Materi** - Konten edukasi kelautan (Marine Life & Atlantis)
+- **Profil** - Informasi pengguna dan pengaturan
+- **Tentang** - Informasi platform
 
 ---
 
@@ -53,15 +55,15 @@ Dashboard Oceana menampilkan antarmuka interaktif bertema bawah laut dengan elem
 Proyek Oceana menggunakan model Git Flow dengan struktur branch berikut:
 
 ### Branch Utama
-- **`main`** — Branch produksi (stabil, siap rilis)
-- **`develop`** — Branch pengembangan utama (integrasi semua fitur)
+- **`main`** - Branch produksi (stabil, siap rilis)
+- **`develop`** - Branch pengembangan utama (integrasi semua fitur)
 
 ### Feature Branches (Per Anggota Tim)
-- **`feature/dashboard`** — Pengembangan halaman dashboard utama
-- **`feature/marine-life`** — Pengembangan fitur Marine Life
-- **`feature/atlantis`** — Pengembangan fitur Atlantis (destinasi wisata)
-- **`feature/auth`** — Pengembangan sistem login dan register
-- **`feature/profile`** — Pengembangan halaman profil pengguna
+- **`feature/dashboard`** - Pengembangan halaman dashboard utama
+- **`feature/marine-life`** - Pengembangan fitur Marine Life
+- **`feature/atlantis`** - Pengembangan fitur Atlantis (destinasi wisata)
+- **`feature/auth`** - Pengembangan sistem login dan register
+- **`feature/profile`** - Pengembangan halaman profil pengguna
 
 ---
 
@@ -82,13 +84,13 @@ Proyek Oceana menggunakan model Git Flow dengan struktur branch berikut:
 ### Prasyarat
 
 Pastikan sudah terinstall:
-- [Git](https://git-scm.com/downloads) — cek dengan `git --version` di terminal
+- [Git](https://git-scm.com/downloads) - cek dengan `git --version` di terminal
 - Android Studio (versi terbaru [kalau bisa])
 - JDK 11 atau lebih tinggi
 
 ---
 
-### Langkah 1 — Clone Repo
+### Langkah 1 - Clone Repo
 
 Buka terminal (Command Prompt atau PowerShell di Windows), lalu jalankan:
 
@@ -99,7 +101,7 @@ cd oceana
 
 ---
 
-### Langkah 2 — Masuk ke Branch Masing-masing
+### Langkah 2 - Masuk ke Branch Masing-masing
 
 Jalankan sesuai dengan tugas yang telah ditentukan:
 
@@ -130,13 +132,13 @@ Branch aktif ditandai dengan tanda bintang `*`.
 
 ---
 
-### Langkah 3 — Buka Project di Android Studio
+### Langkah 3 - Buka Project di Android Studio
 
 Buka Android Studio, pilih **File > Open**, lalu pilih folder `oceana` hasil clone tadi. Tunggu Gradle sync selesai.
 
 ---
 
-### Langkah 4 — Mulai Coding
+### Langkah 4 - Mulai Coding
 
 Kerjakan fitur masing-masing di Android Studio seperti biasa. **Pastikan mengikuti convention yang sudah disepakati tim.**
 
@@ -146,7 +148,7 @@ Kerjakan fitur masing-masing di Android Studio seperti biasa. **Pastikan mengiku
 
 ---
 
-### Langkah 5 — Simpan Progress ke GitHub
+### Langkah 5 - Simpan Progress ke GitHub
 
 Setiap kali selesai mengerjakan satu bagian kecil dan kode bisa di-run tanpa error, jalankan:
 
@@ -167,16 +169,16 @@ docs: update documentation for marine life API
 ```
 
 **Format Commit Message:**
-- `feat:` — Fitur baru
-- `fix:` — Bug fixes
-- `refactor:` — Perbaikan kode tanpa mengubah fungsionalitas
-- `docs:` — Perubahan dokumentasi
-- `style:` — Perubahan formatting/style (whitespace, semicolon, dll)
-- `test:` — Penambahan atau perbaikan tests
+- `feat:` - Fitur baru
+- `fix:` - Bug fixes
+- `refactor:` - Perbaikan kode tanpa mengubah fungsionalitas
+- `docs:` - Perubahan dokumentasi
+- `style:` - Perubahan formatting/style (whitespace, semicolon, dll)
+- `test:` - Penambahan atau perbaikan tests
 
 ---
 
-### Langkah 6 — Ambil Update Terbaru dari `develop`
+### Langkah 6 - Ambil Update Terbaru dari `develop`
 
 Jalankan ini setiap kali mau mulai coding supaya tidak ketinggalan perubahan dari anggota lain:
 
@@ -185,7 +187,7 @@ git pull origin develop
 ```
 ---
 
-### Langkah 7 — Merge ke Branch Develop (Setelah Fitur Selesai)
+### Langkah 7 - Merge ke Branch Develop (Setelah Fitur Selesai)
 
 Ketika fitur sudah selesai dan siap di-merge:
 
@@ -227,6 +229,8 @@ Ketika fitur sudah selesai dan siap di-merge:
 ---
 
 ## 🔗 Referensi & Resources
+
+
 
 - [Android Developer Docs](https://developer.android.com/)
 - [Kotlin Documentation](https://kotlinlang.org/docs/)

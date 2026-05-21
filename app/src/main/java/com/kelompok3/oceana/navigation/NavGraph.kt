@@ -9,11 +9,14 @@ import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 import com.kelompok3.oceana.ui.screen.auth.login.LoginScreen
 import com.kelompok3.oceana.ui.screen.auth.register.RegisterScreen
 import com.kelompok3.oceana.ui.screen.home.HomeScreen
+import com.kelompok3.oceana.ui.screen.MarineLife.MarineLifeScreen
+import com.kelompok3.oceana.ui.screen.profile.ProfileScreen
 
 object OceanaRoute {
     const val HOME        = "home"
     const val EXPLORE     = "explore"
     const val ATLANTIS    = "atlantis"
+    const val ATLANTIS_DETAIL = "atlantis_detail"
     const val MARINE_LIFE = "marine_life"
     const val AUTH        = "auth"
     const val LOGIN       = "login"
@@ -27,7 +30,7 @@ fun OceanaNavGraph() {
     val authViewModel: AuthViewModel = viewModel()
 
     NavHost(
-        navController = navController,
+        navController    = navController,
         startDestination = OceanaRoute.LOGIN
     ) {
         composable(OceanaRoute.LOGIN) {
@@ -51,19 +54,33 @@ fun OceanaNavGraph() {
             )
         }
 
-        // Abi — Atlantis
-        // composable(OceanaRoute.ATLANTIS) {
-        //     AtlantisScreen(navController = navController)
-        // }
+        composable(OceanaRoute.PROFILE) {
+            ProfileScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
 
         // Bagas — Marine Life
-        // composable(OceanaRoute.MARINE_LIFE) {
-        //     MarineLifeScreen(navController = navController)
-        // }
+        composable(OceanaRoute.MARINE_LIFE) {
+            MarineLifeScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
 
-        // Thoriq — Auth & Profile
-        // composable(OceanaRoute.PROFILE) {
-        //     ProfileScreen(navController = navController)
-        // }
+        // Abi — Atlantis
+        composable(OceanaRoute.ATLANTIS) {
+            com.kelompok3.oceana.ui.screen.Atlantis.AtlantisScreen(
+                navController = navController,
+                authViewModel = authViewModel
+            )
+        }
+
+        composable(OceanaRoute.ATLANTIS_DETAIL) {
+            com.kelompok3.oceana.ui.screen.Atlantis.AtlantisDetailScreen(
+                navController = navController
+            )
+        }
     }
 }
