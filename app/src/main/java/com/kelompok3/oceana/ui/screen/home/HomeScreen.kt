@@ -87,7 +87,7 @@ fun HomeScreen(
     authViewModel: com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 ) {
     val authState by authViewModel.authState.collectAsState()
-    val username = authState.loggedInUser?.username ?: ""
+    val username = authState.username ?: ""
 
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
