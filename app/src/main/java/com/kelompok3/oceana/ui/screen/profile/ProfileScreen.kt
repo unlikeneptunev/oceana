@@ -13,8 +13,12 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Waves
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,11 +30,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.kelompok3.oceana.navigation.OceanaRoute
 import com.kelompok3.oceana.supabase
 import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 import io.github.jan.supabase.auth.auth
 
-// ─── Local color definitions (tidak bergantung pada HomeScreen) ───────────────
 private val OceanDeep     = Color(0xFF023E8A)
 private val OceanMid      = Color(0xFF0077B6)
 private val OceanLight    = Color(0xFF00B4D8)
@@ -46,6 +50,16 @@ fun ProfileScreen(
 ) {
     val authState by authViewModel.authState.collectAsState()
     val username = authState.username ?: "-"
+
+    var wasLoggedIn by remember { mutableStateOf(false) }
+
+    LaunchedEffect(authState.isLoggedIn) {
+        if (!authState.isLoggedIn) {
+            navController.navigate(OceanaRoute.LOGIN) {
+                popUpTo(0) { inclusive = true }
+            }
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -90,7 +104,6 @@ private fun ProfileHeader(
                 )
             )
     ) {
-        // ── Back button ───────────────────────────────────────────────────
         IconButton(
             onClick  = onBackClick,
             modifier = Modifier
@@ -104,7 +117,6 @@ private fun ProfileHeader(
             )
         }
 
-        // ── Avatar + name + badge ─────────────────────────────────────────
         Column(
             modifier            = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
