@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.kelompok3.oceana.supabase
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
 data class AuthState(
     val isLoggedIn: Boolean = false,
@@ -16,6 +18,11 @@ data class AuthState(
     val username: String? = null,
     val errorMessage: String? = null,
     val isLoading: Boolean = false
+)
+
+@Serializable
+data class Profile(
+    val email: String
 )
 
 class AuthViewModel : ViewModel() {
@@ -51,7 +58,7 @@ class AuthViewModel : ViewModel() {
             } catch (e: Exception) {
                 _authState.value = _authState.value.copy(
                     isLoading = false,
-                    errorMessage = e.message ?: "Registrasi gagal"
+                    errorMessage = parseSupabaseError(e.message)
                 )
             }
         }
@@ -66,15 +73,39 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             _authState.value = _authState.value.copy(isLoading = true, errorMessage = null)
             try {
+                val emailToUse = if (emailOrUsername.contains("@")) {
+                    emailOrUsername
+                } else {
+                    val result = supabase.postgrest
+                        .from("profiles")
+                        .select {
+                            filter {
+                                eq("username", emailOrUsername)
+                            }
+                        }
+                        .decodeSingleOrNull<Profile>()
+
+                    if (result == null) {
+                        _authState.value = _authState.value.copy(
+                            isLoading = false,
+                            errorMessage = "Username tidak ditemukan"
+                        )
+                        return@launch
+                    }
+                    result.email
+                }
+
                 supabase.auth.signInWith(Email) {
-                    this.email = emailOrUsername
+                    this.email = emailToUse
                     this.password = password
                 }
+
                 val user = supabase.auth.currentUserOrNull()
                 val username = user?.userMetadata
                     ?.get("username")
                     ?.toString()
                     ?.trim('"')
+
                 _authState.value = _authState.value.copy(
                     isLoading = false,
                     isLoggedIn = true,
@@ -83,7 +114,7 @@ class AuthViewModel : ViewModel() {
             } catch (e: Exception) {
                 _authState.value = _authState.value.copy(
                     isLoading = false,
-                    errorMessage = e.message ?: "Login gagal"
+                    errorMessage = parseSupabaseError(e.message)
                 )
             }
         }
@@ -100,5 +131,18 @@ class AuthViewModel : ViewModel() {
 
     fun clearError() {
         _authState.value = _authState.value.copy(errorMessage = null)
+    }
+
+    private fun parseSupabaseError(message: String?): String {
+        if (message == null) return "Terjadi kesalahan"
+        val code = message.substringBefore(" ").substringBefore("(").trim()
+        return when (code) {
+            "user_already_exists"        -> "Email atau username sudah terdaftar"
+            "weak_password"              -> "Password minimal 6 karakter"
+            "invalid_credentials"        -> "Email atau password salah"
+            "email_not_confirmed"        -> "Email belum dikonfirmasi"
+            "over_email_send_rate_limit" -> "Terlalu banyak percobaan, coba lagi nanti"
+            else                         -> "Terjadi kesalahan, coba lagi"
+        }
     }
 }
