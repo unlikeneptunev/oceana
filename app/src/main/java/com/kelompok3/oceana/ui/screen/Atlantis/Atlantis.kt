@@ -30,15 +30,14 @@ import androidx.compose.runtime.collectAsState
 import com.kelompok3.oceana.navigation.OceanaRoute
 import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 
-// ─── Color Palette (Konsisten dengan HomeScreen & MarineLife) ───────────────
+// ─── Color Palette ───────────────────────────────────────────────────────────
 private val OceanDeep     = Color(0xFF023E8A)
 private val OceanMid      = Color(0xFF0077B6)
 private val OceanLight    = Color(0xFF00B4D8)
 private val OceanSurface  = Color(0xFFCAF0F8)
-private val SandWhite     = Color(0xFFF8F9FA)
-private val CoralAccent   = Color(0xFFE76F51)
 private val TextPrimary   = Color(0xFF0D1B2A)
 private val TextSecondary = Color(0xFF4A5568)
+private val CoralAccent   = Color(0xFFE76F51)
 
 // ─── Data Model ──────────────────────────────────────────────────────────────
 data class Destination(
@@ -98,6 +97,7 @@ fun AtlantisScreen(
 ) {
     val authState by authViewModel.authState.collectAsState()
     val username = authState.username ?: ""
+    val coins = 250
 
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -125,10 +125,15 @@ fun AtlantisScreen(
             AnimatedVisibility(visible = visible, enter = fadeIn()) {
                 AtlantisTopBar(
                     username = username,
+                    coins = coins,
                     onHomeClick = {
                         navController.navigate(OceanaRoute.HOME) {
-                            popUpTo(OceanaRoute.HOME) { inclusive = false }
+                            popUpTo(OceanaRoute.HOME) { inclusive = true }
                         }
+                    },
+                    onAtlantisClick = { /* Already here */ },
+                    onMarineLifeClick = {
+                        navController.navigate(OceanaRoute.MARINE_LIFE)
                     },
                     onProfileClick = {
                         navController.navigate(OceanaRoute.PROFILE)
@@ -212,7 +217,10 @@ fun AtlantisScreen(
 @Composable
 fun AtlantisTopBar(
     username: String,
+    coins: Int,
     onHomeClick: () -> Unit,
+    onAtlantisClick: () -> Unit,
+    onMarineLifeClick: () -> Unit,
     onProfileClick: () -> Unit,
     onLogoutClick: () -> Unit
 ) {
@@ -221,8 +229,7 @@ fun AtlantisTopBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(4.dp)
-            .background(Color.White.copy(alpha = 0.95f))
+            .background(Color.White)
             .padding(horizontal = 20.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -265,72 +272,97 @@ fun AtlantisTopBar(
             DropdownMenu(
                 expanded = menuExpanded,
                 onDismissRequest = { menuExpanded = false },
-                modifier = Modifier
-                    .background(Color.White)
-                    .width(200.dp)
+                modifier = Modifier.background(Color.White).width(200.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 10.dp)
-                ) {
+                Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
                     Column {
                         Text(text = "Masuk sebagai", fontSize = 11.sp, color = TextSecondary)
                         Text(text = username, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
                     }
                 }
-                Divider(color = OceanSurface, thickness = 1.dp)
+                HorizontalDivider(color = OceanSurface, thickness = 1.dp)
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Icon(Icons.Filled.Home, contentDescription = null, tint = OceanDeep, modifier = Modifier.size(18.dp))
-                            Text("Beranda", fontSize = 14.sp, color = TextPrimary)
+                            Icon(Icons.Filled.Home, null, tint = OceanMid, modifier = Modifier.size(18.dp))
+                            Text("Dashboard", fontSize = 14.sp, color = TextPrimary)
                         }
                     },
-                    onClick = {
-                        menuExpanded = false
-                        onHomeClick()
-                    }
+                    onClick = { menuExpanded = false; onHomeClick() }
                 )
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Icon(Icons.Filled.Person, contentDescription = null, tint = OceanMid, modifier = Modifier.size(18.dp))
+                            Icon(Icons.Filled.Person, null, tint = OceanMid, modifier = Modifier.size(18.dp))
                             Text("Lihat Profil", fontSize = 14.sp, color = TextPrimary)
                         }
                     },
-                    onClick = {
-                        menuExpanded = false
-                        onProfileClick()
-                    }
+                    onClick = { menuExpanded = false; onProfileClick() }
                 )
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Icon(Icons.Filled.Logout, contentDescription = null, tint = CoralAccent, modifier = Modifier.size(18.dp))
+                            Icon(Icons.Filled.Logout, null, tint = CoralAccent, modifier = Modifier.size(18.dp))
                             Text("Keluar", fontSize = 14.sp, color = CoralAccent)
                         }
                     },
-                    onClick = {
-                        menuExpanded = false
-                        onLogoutClick()
-                    }
+                    onClick = { menuExpanded = false; onLogoutClick() }
                 )
             }
         }
 
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            IconButton(onClick = {}) {
-                Icon(Icons.Outlined.Search, contentDescription = "Cari", tint = TextPrimary)
+        // Right side: Coins + Icons
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Surface(
+                modifier = Modifier.size(0.dp),
+                shape = RoundedCornerShape(20.dp),
+                color = Color.Transparent
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text("🪙", fontSize = 14.sp)
+                    Text(text = "$coins Ocs", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                }
             }
-            IconButton(onClick = {}) {
-                Box {
-                    Icon(Icons.Outlined.Notifications, contentDescription = "Notifikasi", tint = TextPrimary)
-                    Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(CoralAccent).align(Alignment.TopEnd))
+
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Outlined.Search, contentDescription = "Cari", tint = TextPrimary)
+                }
+                IconButton(onClick = {}) {
+                    Box {
+                        Icon(Icons.Outlined.Notifications, contentDescription = "Notifikasi", tint = TextPrimary)
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(CoralAccent)
+                                .align(Alignment.TopEnd)
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun NavLink(label: String, onClick: () -> Unit) {
+    Text(
+        text = label,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = TextPrimary,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 4.dp, vertical = 4.dp)
+    )
 }
 
 @Composable
@@ -407,11 +439,6 @@ private fun AtlantisBackgroundDecor() {
                     color = Color.White.copy(alpha = 0.05f),
                     radius = 140.dp.toPx(),
                     center = Offset(size.width * 0.1f, size.height * 0.65f)
-                )
-                drawCircle(
-                    color = Color.White.copy(alpha = 0.04f),
-                    radius = 90.dp.toPx(),
-                    center = Offset(size.width * 0.2f, size.height * 0.25f)
                 )
             }
     )
