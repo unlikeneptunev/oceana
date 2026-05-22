@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.kelompok3.oceana.navigation.OceanaRoute
 import kotlinx.coroutines.delay
 
 // ─── Color Palette ────────────────────────────────────────────────────────────
@@ -232,7 +233,7 @@ fun TheReefScreen(navController: NavController) {
                         contentAlignment = Alignment.Center
                     ) {
                         Button(
-                            onClick  = { /* TODO: mulai quiz */ },
+                            onClick  = { navController.navigate(OceanaRoute.REEF_QUIZ) },
                             colors   = ButtonDefaults.buttonColors(containerColor = CoralPink),
                             shape    = RoundedCornerShape(12.dp),
                             modifier = Modifier

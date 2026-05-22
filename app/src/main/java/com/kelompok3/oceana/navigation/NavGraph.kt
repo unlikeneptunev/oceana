@@ -11,6 +11,7 @@ import com.kelompok3.oceana.ui.screen.auth.register.RegisterScreen
 import com.kelompok3.oceana.ui.screen.home.HomeScreen
 import com.kelompok3.oceana.ui.screen.MarineLife.MarineLifeScreen
 import com.kelompok3.oceana.ui.screen.MarineLife.TheReefScreen
+import com.kelompok3.oceana.ui.screen.MarineLife.QuizScreen
 import com.kelompok3.oceana.ui.screen.profile.ProfileScreen
 
 object OceanaRoute {
@@ -20,6 +21,7 @@ object OceanaRoute {
     const val ATLANTIS_DETAIL = "atlantis_detail"
     const val MARINE_LIFE = "marine_life"
     const val THE_REEF    = "the_reef"        // ← Route baru
+    const val REEF_QUIZ   = "reef_quiz"       // ← Halaman kuis The Reef
     const val AUTH        = "auth"
     const val LOGIN       = "login"
     const val REGISTER    = "register"
@@ -74,6 +76,11 @@ fun OceanaNavGraph() {
         // The Reef — Chapter 1 of Marine Life
         composable(OceanaRoute.THE_REEF) {
             TheReefScreen(navController = navController)
+        }
+
+        // The Reef Quiz
+        composable(OceanaRoute.REEF_QUIZ) {
+            QuizScreen(navController = navController)
         }
 
         // Abi — Atlantis
