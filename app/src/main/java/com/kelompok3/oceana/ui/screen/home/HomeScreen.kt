@@ -23,18 +23,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.collectAsState
+import com.kelompok3.oceana.navigation.OceanaRoute
 
 // ─── Data Models ────────────────────────────────────────────────────────────
-
-data class Article(
-    val id: Int,
-    val category: String,
-    val title: String,
-    val description: String,
-    val readTime: String,
-    val gradientStart: Color,
-    val gradientEnd: Color
-)
 
 data class FeatureCard(
     val title: String,
@@ -54,7 +45,7 @@ val features = listOf(
         emoji = "🏛️",
         gradientStart = Color(0xFF023E8A),
         gradientEnd = Color(0xFF00B4D8),
-        route = "atlantis"
+        route = OceanaRoute.ATLANTIS
     ),
     FeatureCard(
         title = "Marine Life",
@@ -63,7 +54,7 @@ val features = listOf(
         emoji = "🐠",
         gradientStart = Color(0xFF1B4332),
         gradientEnd = Color(0xFF52B788),
-        route = "marine_life"
+        route = OceanaRoute.MARINE_LIFE
     ),
 )
 
@@ -77,7 +68,6 @@ val SandWhite = Color(0xFFF8F9FA)
 val CoralAccent = Color(0xFFE76F51)
 val TextPrimary = Color(0xFF0D1B2A)
 val TextSecondary = Color(0xFF4A5568)
-// val CardBg = Color(0xFFFFFFFF)
 
 // ─── Main Home Screen ─────────────────────────────────────────────────────────
 
@@ -87,7 +77,8 @@ fun HomeScreen(
     authViewModel: com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 ) {
     val authState by authViewModel.authState.collectAsState()
-    val username = authState.loggedInUser?.username ?: ""
+    val username = authState.username ?: ""
+    val coins = 250 
 
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -99,20 +90,33 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         color = SandWhite
     ) {
+        val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
             AnimatedVisibility(visible = visible, enter = fadeIn()) {
                 OceanaTopBar(
                     username = username,
+                    coins = coins,
+                    onHomeClick = { /* Already on Home */ },
+                    onAtlantisClick = { 
+                        navController.navigate(OceanaRoute.ATLANTIS) {
+                            launchSingleTop = true
+                        }
+                    },
+                    onMarineLifeClick = { 
+                        navController.navigate(OceanaRoute.MARINE_LIFE) {
+                            launchSingleTop = true
+                        }
+                    },
                     onProfileClick = {
-                        navController.navigate(com.kelompok3.oceana.navigation.OceanaRoute.PROFILE)
+                        navController.navigate(OceanaRoute.PROFILE)
                     },
                     onLogoutClick = {
                         authViewModel.logout()
-                        navController.navigate(com.kelompok3.oceana.navigation.OceanaRoute.LOGIN) {
+                        navController.navigate(OceanaRoute.LOGIN) {
                             popUpTo(0) { inclusive = true }
                         }
                     }
@@ -135,15 +139,6 @@ fun HomeScreen(
                 FeaturesSection(navController = navController)
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
-
-            AnimatedVisibility(
-                visible = visible,
-                enter = fadeIn() + slideInVertically(initialOffsetY = { 80 })
-            ) {
-
-            }
-
             Spacer(modifier = Modifier.height(32.dp))
 
             AnimatedVisibility(visible = visible, enter = fadeIn()) {
@@ -160,6 +155,10 @@ fun HomeScreen(
 @Composable
 fun OceanaTopBar(
     username: String,
+    coins: Int,
+    onHomeClick: () -> Unit,
+    onAtlantisClick: () -> Unit,
+    onMarineLifeClick: () -> Unit,
     onProfileClick: () -> Unit,
     onLogoutClick: () -> Unit
 ) {
@@ -173,6 +172,7 @@ fun OceanaTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Logo & Brand
         Box {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -199,15 +199,13 @@ fun OceanaTopBar(
                         modifier = Modifier.size(20.dp)
                     )
                 }
-                Column {
-                    Text(
-                        "OCEANA",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = OceanDeep,
-                        letterSpacing = 1.sp
-                    )
-                }
+                Text(
+                    "OCEANA",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = OceanDeep,
+                    letterSpacing = 1.sp
+                )
             }
 
             DropdownMenu(
@@ -223,92 +221,97 @@ fun OceanaTopBar(
                         .padding(horizontal = 16.dp, vertical = 10.dp)
                 ) {
                     Column {
-                        Text(
-                            text = "Masuk sebagai",
-                            fontSize = 11.sp,
-                            color = TextSecondary
-                        )
-                        Text(
-                            text = username,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextPrimary
-                        )
+                        Text(text = "Masuk sebagai", fontSize = 11.sp, color = TextSecondary)
+                        Text(text = username, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
                     }
                 }
 
-                Divider(color = OceanSurface, thickness = 1.dp)
+                HorizontalDivider(color = OceanSurface, thickness = 1.dp)
 
                 DropdownMenuItem(
                     text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Person,
-                                contentDescription = null,
-                                tint = OceanMid,
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Text(
-                                "Lihat Profil",
-                                fontSize = 14.sp,
-                                color = TextPrimary
-                            )
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Icon(Icons.Filled.Home, null, tint = OceanMid, modifier = Modifier.size(18.dp))
+                            Text("Dashboard", fontSize = 14.sp, color = TextPrimary)
                         }
                     },
-                    onClick = {
-                        menuExpanded = false
-                        onProfileClick()
-                    }
+                    onClick = { menuExpanded = false; onHomeClick() }
                 )
 
                 DropdownMenuItem(
                     text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Logout,
-                                contentDescription = null,
-                                tint = CoralAccent,
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Text(
-                                "Keluar",
-                                fontSize = 14.sp,
-                                color = CoralAccent
-                            )
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Icon(Icons.Filled.Person, null, tint = OceanMid, modifier = Modifier.size(18.dp))
+                            Text("Lihat Profil", fontSize = 14.sp, color = TextPrimary)
                         }
                     },
-                    onClick = {
-                        menuExpanded = false
-                        onLogoutClick()
-                    }
+                    onClick = { menuExpanded = false; onProfileClick() }
+                )
+
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Icon(Icons.Filled.Logout, null, tint = CoralAccent, modifier = Modifier.size(18.dp))
+                            Text("Keluar", fontSize = 14.sp, color = CoralAccent)
+                        }
+                    },
+                    onClick = { menuExpanded = false; onLogoutClick() }
                 )
             }
         }
 
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            IconButton(onClick = {}) {
-                Icon(Icons.Outlined.Search, contentDescription = "Cari", tint = TextPrimary)
+        // Right side: Coins + Icons
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Surface(
+                modifier = Modifier.size(0.dp),
+                shape = RoundedCornerShape(20.dp),
+                color = Color.Transparent
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text("🪙", fontSize = 14.sp)
+                    Text(text = "$coins Ocs", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                }
             }
-            IconButton(onClick = {}) {
-                Box {
-                    Icon(Icons.Outlined.Notifications, contentDescription = "Notifikasi", tint = TextPrimary)
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .clip(CircleShape)
-                            .background(CoralAccent)
-                            .align(Alignment.TopEnd)
-                    )
+
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Outlined.Search, contentDescription = "Cari", tint = TextPrimary)
+                }
+                IconButton(onClick = {}) {
+                    Box {
+                        Icon(Icons.Outlined.Notifications, contentDescription = "Notifikasi", tint = TextPrimary)
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(CoralAccent)
+                                .align(Alignment.TopEnd)
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun NavLink(label: String, onClick: () -> Unit) {
+    Text(
+        text = label,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = TextPrimary,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 4.dp, vertical = 4.dp)
+    )
 }
 
 // ─── Hero Banner ─────────────────────────────────────────────────────────────
@@ -331,16 +334,6 @@ fun HeroBanner() {
                     color = Color.White.copy(alpha = 0.05f),
                     radius = 180.dp.toPx(),
                     center = Offset(size.width * 0.85f, size.height * 0.2f)
-                )
-                drawCircle(
-                    color = Color.White.copy(alpha = 0.07f),
-                    radius = 120.dp.toPx(),
-                    center = Offset(size.width * 0.75f, size.height * 0.7f)
-                )
-                drawCircle(
-                    color = Color.White.copy(alpha = 0.04f),
-                    radius = 80.dp.toPx(),
-                    center = Offset(size.width * 0.1f, size.height * 0.8f)
                 )
             }
     ) {
@@ -372,15 +365,6 @@ fun HeroBanner() {
                 lineHeight = 32.sp
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                "Lestarikan kekayaan laut\nIndonesia bersama kami.",
-                fontSize = 13.sp,
-                color = Color.White.copy(alpha = 0.85f),
-                lineHeight = 19.sp
-            )
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
@@ -404,26 +388,6 @@ fun HeroBanner() {
                 )
             }
         }
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 28.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            listOf("🐋", "🐠", "🌿").forEach { emoji ->
-                Surface(
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.15f),
-                    modifier = Modifier.size(44.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Text(emoji, fontSize = 22.sp)
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -440,7 +404,11 @@ fun FeaturesSection(navController: androidx.navigation.NavController) {
             features.forEach { feature ->
                 FeatureCardItem(
                     feature = feature,
-                    onClick = { navController.navigate(feature.route) }
+                    onClick = {
+                        navController.navigate(feature.route) {
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
         }
@@ -448,7 +416,7 @@ fun FeaturesSection(navController: androidx.navigation.NavController) {
 }
 
 @Composable
-fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit = {}) {
+fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -465,11 +433,6 @@ fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit = {}) {
                     color = Color.White.copy(alpha = 0.06f),
                     radius = 100.dp.toPx(),
                     center = Offset(size.width * 0.85f, size.height * 0.3f)
-                )
-                drawCircle(
-                    color = Color.White.copy(alpha = 0.04f),
-                    radius = 60.dp.toPx(),
-                    center = Offset(size.width * 0.75f, size.height * 0.9f)
                 )
             }
     ) {
@@ -528,8 +491,6 @@ fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit = {}) {
     }
 }
 
-
-
 // ─── Footer Banner ────────────────────────────────────────────────────────────
 
 @Composable
@@ -565,20 +526,6 @@ fun FooterBanner() {
                     color = Color.White.copy(alpha = 0.85f),
                     lineHeight = 15.sp
                 )
-                Spacer(modifier = Modifier.height(12.dp))
-                Surface(
-                    shape = RoundedCornerShape(20.dp),
-                    color = Color.White,
-                    modifier = Modifier.clickable {}
-                ) {
-                    Text(
-                        "Donasi Sekarang  →",
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1B4332)
-                    )
-                }
             }
             Text("🌿", fontSize = 48.sp, modifier = Modifier.padding(start = 12.dp))
         }

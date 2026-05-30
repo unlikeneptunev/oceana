@@ -40,6 +40,14 @@ fun RegisterScreen(
 
     val authState by authViewModel.authState.collectAsState()
 
+    LaunchedEffect(authState.isRegistered) {
+        if (authState.isRegistered) {
+            navController.navigate(OceanaRoute.LOGIN) {
+                popUpTo(OceanaRoute.REGISTER) { inclusive = true }
+            }
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -223,14 +231,7 @@ fun RegisterScreen(
 
                     Button(
                         onClick = {
-                            val success = authViewModel.register(
-                                email, username, password, confirmPassword
-                            )
-                            if (success) {
-                                navController.navigate(OceanaRoute.LOGIN) {
-                                    popUpTo(OceanaRoute.REGISTER) { inclusive = true }
-                                }
-                            }
+                            authViewModel.register(email, username, password, confirmPassword)
                         },
                         modifier = Modifier
                             .fillMaxWidth()

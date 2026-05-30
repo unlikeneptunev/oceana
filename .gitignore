@@ -57,3 +57,4 @@ signingReport/
 
 # DS_Store (Mac)
 .DS_Store/
+*.hprof

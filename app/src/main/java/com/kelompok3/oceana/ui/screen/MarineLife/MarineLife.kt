@@ -30,15 +30,15 @@ import com.kelompok3.oceana.navigation.OceanaRoute
 import com.kelompok3.oceana.ui.screen.auth.AuthViewModel
 
 // ─── Color Palette (matches HomeScreen) ──────────────────────────────────────
-private val OceanDeep     = Color(0xFF023E8A)
-private val OceanMid      = Color(0xFF0077B6)
-private val OceanLight    = Color(0xFF00B4D8)
-private val OceanSurface  = Color(0xFFCAF0F8)
-private val TealCard      = Color(0xFF3DCFC7)
-private val TealCardDark  = Color(0xFF2BAFA8)
-private val CoralAccent   = Color(0xFFE76F51)
-private val TextPrimary   = Color(0xFF0D1B2A)
-private val TextSecondary = Color(0xFF4A5568)
+private val OceanDeep    = Color(0xFF023E8A)
+private val OceanMid     = Color(0xFF0077B6)
+private val OceanLight   = Color(0xFF00B4D8)
+private val OceanSurface = Color(0xFFCAF0F8)
+private val TealCard     = Color(0xFF3DCFC7)
+private val TealCardDark = Color(0xFF2BAFA8)
+private val CoralAccent  = Color(0xFFE76F51)
+private val TextPrimary  = Color(0xFF0D1B2A)
+private val TextSecondary= Color(0xFF4A5568)
 
 // ─── Data model ──────────────────────────────────────────────────────────────
 data class MarineChapter(
@@ -62,7 +62,8 @@ fun MarineLifeScreen(
     authViewModel: AuthViewModel
 ) {
     val authState by authViewModel.authState.collectAsState()
-    val username  = authState.loggedInUser?.username ?: "User"
+    val username = authState.username ?: ""
+    val coins = 250
 
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -91,11 +92,18 @@ fun MarineLifeScreen(
             AnimatedVisibility(visible = visible, enter = fadeIn()) {
                 MarineLifeTopBar(
                     username       = username,
+                    coins          = coins,
                     onHomeClick    = {
                         navController.navigate(OceanaRoute.HOME) {
-                            popUpTo(OceanaRoute.HOME) { inclusive = false }
+                            popUpTo(OceanaRoute.HOME) { inclusive = true }
                         }
                     },
+                    onAtlantisClick = { 
+                        navController.navigate(OceanaRoute.ATLANTIS) {
+                            launchSingleTop = true
+                        }
+                    },
+                    onMarineLifeClick = { /* Already here */ },
                     onProfileClick = { navController.navigate(OceanaRoute.PROFILE) },
                     onLogoutClick  = {
                         authViewModel.logout()
@@ -138,7 +146,14 @@ fun MarineLifeScreen(
                                 rowChapters.forEach { chapter ->
                                     ChapterCard(
                                         chapter  = chapter,
-                                        modifier = Modifier.weight(1f)
+                                        modifier = Modifier.weight(1f),
+                                        onClick  = {
+                                            if (chapter.isUnlocked) {
+                                                when (chapter.id) {
+                                                    1 -> navController.navigate(OceanaRoute.THE_REEF)
+                                                }
+                                            }
+                                        }
                                     )
                                 }
                                 if (rowChapters.size == 1) {
@@ -167,7 +182,10 @@ fun MarineLifeScreen(
 @Composable
 fun MarineLifeTopBar(
     username: String,
+    coins: Int,
     onHomeClick: () -> Unit,
+    onAtlantisClick: () -> Unit,
+    onMarineLifeClick: () -> Unit,
     onProfileClick: () -> Unit,
     onLogoutClick: () -> Unit
 ) {
@@ -246,7 +264,7 @@ fun MarineLifeTopBar(
                     }
                 }
 
-                Divider(color = OceanSurface, thickness = 1.dp)
+                HorizontalDivider(color = OceanSurface, thickness = 1.dp)
 
                 // ── Dashboard / Beranda ───────────────────────────────────
                 DropdownMenuItem(
@@ -273,8 +291,6 @@ fun MarineLifeTopBar(
                         onHomeClick()
                     }
                 )
-
-                Divider(color = OceanSurface, thickness = 1.dp)
 
                 // ── Lihat Profil ──────────────────────────────────────────
                 DropdownMenuItem(
@@ -330,30 +346,63 @@ fun MarineLifeTopBar(
             }
         }
 
-        // ── Right side: Search + Notifications ───────────────────────────
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            IconButton(onClick = {}) {
-                Icon(Icons.Outlined.Search, contentDescription = "Cari", tint = TextPrimary)
+        // ── Right side: Coins + Icons ───────────────────────────
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Surface(
+                modifier = Modifier.size(0.dp),
+                shape = RoundedCornerShape(20.dp),
+                color = Color.Transparent
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text("🪙", fontSize = 14.sp)
+                    Text(text = "$coins Ocs", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White, maxLines = 1)
+                }
             }
-            IconButton(onClick = {}) {
-                Box {
-                    Icon(Icons.Outlined.Notifications, contentDescription = "Notifikasi", tint = TextPrimary)
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .clip(CircleShape)
-                            .background(CoralAccent)
-                            .align(Alignment.TopEnd)
-                    )
+
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Outlined.Search, contentDescription = "Cari", tint = TextPrimary)
+                }
+                IconButton(onClick = {}) {
+                    Box {
+                        Icon(Icons.Outlined.Notifications, contentDescription = "Notifikasi", tint = TextPrimary)
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(CoralAccent)
+                                .align(Alignment.TopEnd)
+                        )
+                    }
                 }
             }
         }
     }
 }
 
+@Composable
+private fun NavLink(label: String, onClick: () -> Unit) {
+    Text(
+        text     = label,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold,
+        color    = TextPrimary,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 4.dp, vertical = 4.dp)
+    )
+}
+
 // ─── Chapter Card ─────────────────────────────────────────────────────────────
 @Composable
-fun ChapterCard(chapter: MarineChapter, modifier: Modifier = Modifier) {
+fun ChapterCard(chapter: MarineChapter, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     val cardColor = if (chapter.isUnlocked) TealCard else TealCardDark.copy(alpha = 0.85f)
 
     Box(
@@ -373,7 +422,7 @@ fun ChapterCard(chapter: MarineChapter, modifier: Modifier = Modifier) {
                 color = Color.White.copy(alpha = 0.35f),
                 shape = RoundedCornerShape(24.dp)
             )
-            .clickable(enabled = chapter.isUnlocked) {}
+            .clickable(enabled = chapter.isUnlocked) { onClick() }
     ) {
         Column(
             modifier            = Modifier
